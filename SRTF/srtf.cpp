@@ -109,9 +109,22 @@ bool is_increasing() {
 }
 
 void statistics() {
+    cout << "pID" << "\tarrival_time" << "\tburst_time" << "\tfinnish_time" << endl;
     for (PCB *p = statistics_list.pHead; p != NULL; p = p->pNext) {
-        cout << p->pID << " " << p->arrival_time << " " << p->burst_time << " " << p->finnish_time << endl;
+        cout << p->pID << "\t" << p->arrival_time << "\t\t" << p->burst_time << "\t\t" << p->finnish_time << endl;
     }
+    float avg_wait_time = 0;
+    float avg_turnaround_time = 0;
+    int count = 0;
+    for (PCB *p = statistics_list.pHead; p != NULL; p = p->pNext) {
+        avg_wait_time += p->finnish_time - p->arrival_time - p->burst_time;
+        avg_turnaround_time += p->finnish_time - p->arrival_time;
+        count++;
+    }
+    avg_turnaround_time = avg_turnaround_time/count;
+    avg_wait_time = avg_wait_time/count;
+    cout << "avg_wait_time: " << avg_wait_time << endl;
+    cout << "avg_turnaround_time: " << avg_turnaround_time << endl;
 }
 
 void* wait(void* message) {
